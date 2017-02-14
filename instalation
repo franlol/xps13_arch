@@ -1,3 +1,5 @@
+#franlol - dell XPS13 steps to install ArchLinux
+
 #loadkeys es
 #wifi-menu
 
@@ -59,45 +61,36 @@ mkinitcpio -p linux
 #uncomment language, generate files and configure parms.
 nano /etc/locale.gen
 locale-gen
-echo LANG=en_US.UTF-8 > /etc/locale.conf
-export LANG=en_US.UTF-8
 
 #users
 passwd
 useradd -m -G wheel,users -s /bin/bash franlol
 passwd franlol
 
+#sudo conf
 pacman -S sudo
 EDITOR=nano visudo
-
 #uncomment
 %wheel ALL=(ALL) ALL
 
+#hostname
 echo XPS13 > /etc/hostname
 
-#GNOME
+#Desktop environment
 pacman -S gnome gnome-extra
 
-#network from gui packages
+#network packages for gui
 pacman -S iw wpa_supplicant dialog network-manager-applet networkmanager
 
+#touchpad
 pacman -S xf86-input-synaptics
 
+#services
 systemctl enable NetworkManager.service
 systemctl enable gdm.service
 
+#finish
 exit
 umount -R /mnt
-
 reboot
-
-
-
-
-
-
-
-
-
-
-
+#~enjoy
