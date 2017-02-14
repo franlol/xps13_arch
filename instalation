@@ -19,3 +19,84 @@ mount /dev/ssd /mnt
 mkdir -p /mnt/boot
 mount /dev/boot /mnt/boot
 
+#install base and base-devel packages
+pacstrap -i /mnt base base-devel
+
+#create fstab
+genfstab -U /mnt > /mnt/etc/fstab
+
+#chroot into system
+arch-chroot /mnt /bin/bash
+
+#install and configure the bootloader
+bootctl --path=/boot install
+nano /boot/loader/loader.conf
+  -> replace all for:
+    -> default arch
+    -> timeout 1 
+    -> editor 0
+# find UUID of ssd/root partition
+blkid -s PARTUUID -o value /dev/ssd
+nano /boot/loader/entries/arch.conf
+  -> add part UUID or /dev/ssd
+    -> title Arch Linux
+    -> linux /vmlinuz-linux
+    -> initrd /initramfs-linux.img
+    -> options root=PARTUUID=66e3f67d-f59a-4086-acdd-a6e248a3ee80 rw
+    -> options root=PARTUUID=/dev/ssd rw
+#update bootloader
+bootctl update
+
+#cuz dell uses pcie for ssd, add nvme module in input
+nano /etc/mkinitcpio.conf
+  -> add:
+    -> MODULES="nvme"
+
+#create bootloader image
+mkinitcpio -p linux
+
+#uncomment language, generate files and configure parms.
+nano /etc/locale.gen
+locale-gen
+echo LANG=en_US.UTF-8 > /etc/locale.conf
+export LANG=en_US.UTF-8
+
+#users
+passwd
+useradd -m -G wheel,users -s /bin/bash franlol
+passwd franlol
+
+pacman -S sudo
+EDITOR=nano visudo
+
+#uncomment
+%wheel ALL=(ALL) ALL
+
+echo XPS13 > /etc/hostname
+
+#GNOME
+pacman -S gnome gnome-extra
+
+#network from gui packages
+pacman -S iw wpa_supplicant dialog network-manager-applet networkmanager
+
+pacman -S xf86-input-synaptics
+
+systemctl enable NetworkManager.service
+systemctl enable gdm.service
+
+exit
+umount -R /mnt
+
+reboot
+
+
+
+
+
+
+
+
+
+
+
