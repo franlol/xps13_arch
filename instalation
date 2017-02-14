@@ -43,7 +43,8 @@ nano /boot/loader/entries/arch.conf
     -> linux /vmlinuz-linux
     -> initrd /initramfs-linux.img
     -> options root=PARTUUID=66e3f67d-f59a-4086-acdd-a6e248a3ee80 rw
-    -> options root=PARTUUID=/dev/ssd rw
+    or
+    -> options root=/dev/ssd rw
 #update bootloader
 bootctl update
 
