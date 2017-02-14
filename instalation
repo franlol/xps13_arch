@@ -1,0 +1,21 @@
+#loadkeys es
+#wifi-menu
+
+#make partitions
+gdisk /dev/nvme0n1
+  -> boot (ef00)
+  -> swap (8200)
+  -> ssd (8300)
+  -> write
+  
+#format partitions and enable swap
+mkfs.fat -F32 /dev/boot
+mkswap /dev/swap
+swapon /dev/swap
+mkfs.ext4 /dev/ssd
+
+#mounts
+mount /dev/ssd /mnt
+mkdir -p /mnt/boot
+mount /dev/boot /mnt/boot
+
