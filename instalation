@@ -22,6 +22,9 @@ mkdir -p /mnt/boot
 mount /dev/boot /mnt/boot
 
 #install base and base-devel packages
+(update mirrorlist if slow)
+#cp /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist.backup
+#rankmirrors /etc/pacman.d/mirrorlist.backup > /etc/pacman.d/mirrorlist
 pacstrap -i /mnt base base-devel
 
 #create fstab
