@@ -86,7 +86,8 @@ pacman -S gnome gnome-extra
 pacman -S iw wpa_supplicant dialog network-manager-applet networkmanager
 
 #touchpad
-pacman -S xf86-input-synaptics
+#pacman -S xf86-input-synaptics -- that package is not actually updated.. Use libinput.
+pacman -S libinput
 
 #services
 systemctl enable NetworkManager.service
