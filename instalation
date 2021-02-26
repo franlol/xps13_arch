@@ -1,16 +1,23 @@
 #franlol - dell XPS13(9360) steps to install ArchLinux
+https://wiki.archlinux.org/index.php/Installation_guide
 
-#loadkeys es
-#~~wifi-menu~~ iwctl
+### Set keyboard layout
+loadkeys es
 
-#make partitions
+### Connect to the internet
+iwctl
+
+### Update system clock
+timedatectl https://man.archlinux.org/man/timedatectl.1
+
+### make partitions
 gdisk /dev/nvme0n1
   -> boot (ef00)
   -> swap (8200)
   -> ssd (8300)
   -> write
   
-#format partitions and enable swap
+### format partitions and enable swap
 mkfs.fat -F32 /dev/boot
 mkswap /dev/swap
 swapon /dev/swap
@@ -25,10 +32,10 @@ mount /dev/boot /mnt/boot
 (update mirrorlist if slow)
 #cp /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist.backup
 #rankmirrors /etc/pacman.d/mirrorlist.backup > /etc/pacman.d/mirrorlist
-pacstrap -i /mnt base base-devel
+pacstrap /mnt base linux linux-firmware
 
 #create fstab
-genfstab -U /mnt > /mnt/etc/fstab
+genfstab -U /mnt >> /mnt/etc/fstab
 
 #chroot into system
 arch-chroot /mnt /bin/bash
@@ -40,6 +47,7 @@ nano /boot/loader/loader.conf
     -> default arch
     -> timeout 1 
     -> editor 0
+
 # find UUID of ssd/root partition
 blkid -s PARTUUID -o value /dev/ssd
 nano /boot/loader/entries/arch.conf
