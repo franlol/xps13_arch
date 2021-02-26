@@ -101,6 +101,8 @@ pacman -S libinput
 systemctl enable NetworkManager.service
 systemctl enable gdm.service
 
+Install sddm; disable gdm; enable sddm; reboot; see what happens.
+
 #finish
 exit
 umount -R /mnt
