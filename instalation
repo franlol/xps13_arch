@@ -1,7 +1,7 @@
 #franlol - dell XPS13(9360) steps to install ArchLinux
 
 #loadkeys es
-#wifi-menu
+#~~wifi-menu~~ iwctl
 
 #make partitions
 gdisk /dev/nvme0n1
