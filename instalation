@@ -1,14 +1,14 @@
-#franlol - dell XPS13(9360) steps to install ArchLinux
+#franlol - Dell XPS13 (9360) Archlinux instalation steps
 https://wiki.archlinux.org/index.php/Installation_guide
 
 ### Set keyboard layout
 loadkeys es
 
-### Connect to the internet
+### Connect to the internet (https://wiki.archlinux.org/title/Iwd)
 iwctl
 
-### Update system clock
-timedatectl https://man.archlinux.org/man/timedatectl.1
+### Update system clock (https://man.archlinux.org/man/timedatectl.1)
+timedatectl 
 
 ### make partitions
 gdisk /dev/nvme0n1
@@ -24,7 +24,7 @@ swapon /dev/swap
 mkfs.ext4 /dev/ssd
 
 #mounts
-mount /dev/ssd /mnt
+mount -w /dev/ssd /mnt
 mkdir -p /mnt/boot
 mount /dev/boot /mnt/boot
 
@@ -50,6 +50,7 @@ nano /boot/loader/loader.conf
 
 # find UUID of ssd/root partition
 blkid -s PARTUUID -o value /dev/ssd
+pacman -S nano
 nano /boot/loader/entries/arch.conf
   -> add part UUID or /dev/ssd
     -> title Arch Linux
@@ -100,8 +101,6 @@ pacman -S libinput
 #services
 systemctl enable NetworkManager.service
 systemctl enable gdm.service
-
-Install sddm; disable gdm; enable sddm; reboot; see what happens.
 
 #finish
 exit
